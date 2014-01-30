@@ -1,0 +1,27 @@
+.body1 {
+    padding-top: 50px;
+    background-image: url(/static/img/background.png);
+    background-repeat: repeat;
+}
+
+.center {
+    width: auto;
+    display: table;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+a {
+    font-weight: bolder;
+}
+
+#myCanvas {
+     position:absolute;
+     top:0;
+     z-index:999;
+     margin-top: 45px;
+     margin-left: 190px;
+}
+
+body,button, input, select, textarea,h1 ,h2, h3, h4, h5,
+h6 { font-family: Microsoft YaHei,'宋体' , Tahoma, Helvetica, Arial, "\5b8b\4f53", sans-serif;}

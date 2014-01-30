@@ -1,0 +1,26 @@
+{% extends "blog/../base.html" %}
+
+{% block title %} blog list {% endblock %}
+
+{% block article %}
+    <article class='content-main'>
+        {% for Blog in Blogs %}
+            <div class="panel panel-default">
+                <h3 class="center" style="font-size: 25px;">
+                    <a href="{% url "detailblog" Blog.id %}" class="ablack">{{ Blog.caption }}</a>
+                </h3>
+                <hr style="width: 400px; border:1px dashed #b600b6;opacity: 0.3;"/>
+                <div class="panel-body">
+                    {% load myapp_markup %}
+                    <p>{{ Blog.content|markdown }}</p>
+                </div>
+                <div class="panel-footer" style="height: 30px;">
+                    {% for tag in Blog.tags.all %}
+                        <span class="label label-default" style="border-radius: 15px;"><small>{{ tag }}</small></span>
+                    {% endfor %}
+                    <p><a href="{% url "detailblog" Blog.id %}"></a></p>
+                </div>
+            </div>
+        {% endfor %}
+    </article>
+{% endblock %}

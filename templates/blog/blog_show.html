@@ -1,0 +1,110 @@
+{% extends "blog/../base.html" %}
+{% load comments %}
+
+{% block title %} {{ Blog.caption }} {% endblock %}
+
+
+{% block article %}
+    <div class="thumbnail">
+        <div class="content">
+            <article class="content-main">
+                {% block article_title %}
+                    <h2>{{ Blog.caption }}</h2>
+                {% endblock %}
+                <p class="muted">
+                    <small>作者： {{ Blog.author }}</small>
+                    <small> &nbsp 发布时间：{{ Blog.publish_time }}</small>
+                    {% get_comment_count for Blog as comment_count %}
+                    <small> &nbsp 评论：{{ comment_count }}条</small>
+                </p>
+
+                <section>
+                    <div class="content">
+                    {% load myapp_markup %}
+                        {% block article_content %}
+                            {{ Blog.content|markdown:'codehilite' }}
+                        {% endblock %}
+                    </div>
+                </section>
+            </article>
+        </div>
+    </div>
+{% endblock %}
+
+{% block comments %}
+    <div class="thumbnail">
+        <h4 style="margin-top: 15px;margin-left: 10px;">评论:</h4>
+        {% get_comment_list for Blog as comment_list %}
+        {% for comment in comment_list %}
+
+        {% endfor %}
+    </div>
+    <div class="thumbnail">
+        <h4 style="margin-top: 15px;margin-left: 10px;">增加新评论</h4>
+        {% get_comment_form for Blog as form %}
+        <form role="form" action="{% comment_form_target %}" method="post">
+            <fieldset>
+                {% csrf_token %}
+                {{ blog_form.object_pk }}
+                {{ blog_form.content_type }}
+                {{ blog_form.timestamp }}
+                {{ blog_form.site }}
+                {{ blog_form.submit_date }}
+                {{ blog_form.security_hash }}
+                <div class="input-group1 " style="">
+                    <span class="input-group-addon">用户名</span>
+                    <input type="text" class="form-control input-sm" placeholder="请输入用户名" required="required"
+                           style="width: 300px;">
+                </div>
+                <div class="input-group1 ">
+                    <span class="input-group-addon">邮&nbsp &nbsp箱</span>
+                    <input type="text" class="form-control input-sm" placeholder="请输入邮箱" required="required"
+                           style="width: 302px;">
+                </div>
+                <div class="input-group1 ">
+                    <span class="input-group-addon">评&nbsp &nbsp论</span>
+                    <textarea type="text" class="form-control input-sm" placeholder="请输入评论" required="required"
+                              style=" height: 200px; width: 600px;"></textarea>
+                </div>
+                <p style="display:none;">
+                    <label for="id_honeypot">如果你在该字段中输入任何内容，那么你的评论就会被视为垃圾评论。</label>
+                    <input type="text" name="honeypot" id="id_honeypot">
+                </p>
+
+                <div class="form-actions center">
+                    <input class="btn btn-info" type="submit" name="submit" value="提交">
+                    <input class="hidden" name="next" value="{% url "showcomment" Blog.id %}">
+                </div>
+            </fieldset>
+        </form>
+    </div>
+{% endblock %}
+
+{% block script %}
+<script type="text/javascript" charset="utf-8">
+function bindPostCommentHandler() {
+    $('#comment_form form input.submit-preview').remove();
+    $('#comment_form form').submit(function() {
+        $.ajax({
+            type: "POST",
+            data: $('#comment_form form').serialize(),
+            url: "{% comment_form_target %}",
+            cache: false,
+            dataType: "html",
+            success: function(html, textStatus) {
+                $('#cmt').replaceWith(html);
+                $('#comment_form form')[0].reset();
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                $('#comment_form form').replaceWith('Your comment was unable to be posted at this time.  We apologise for the inconvenience.');
+            }
+        });
+        return false;
+    });
+}
+
+$(document).ready(function() {
+    bindPostCommentHandler();
+});
+</script>
+{% endblock %}
