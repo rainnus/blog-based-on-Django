@@ -12,7 +12,7 @@
                 <hr style="width: 400px; border:1px dashed #b600b6;opacity: 0.3;"/>
                 <div class="panel-body">
                     {% load myapp_markup %}
-                    <p>{{ Blog.content|markdown }}</p>
+                    <p>{{ Blog.content|markdown}}</p>
                 </div>
                 <div class="panel-footer" style="height: 30px;">
                     {% for tag in Blog.tags.all %}

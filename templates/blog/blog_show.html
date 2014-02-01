@@ -22,7 +22,7 @@
                     <div class="content">
                     {% load myapp_markup %}
                         {% block article_content %}
-                            {{ Blog.content|markdown:'codehilite' }}
+                            {{ Blog.content|markdown }}
                         {% endblock %}
                     </div>
                 </section>

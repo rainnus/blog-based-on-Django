@@ -21,7 +21,6 @@ SECRET_KEY = 'kv=e2c-bi3^hqa$r+)e-42j61=3!r6bmj0hdk5b(r-+)%q&b(k'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
-
 TEMPLATE_DEBUG = True
 
 ALLOWED_HOSTS = ['localhost', '127.0.0.1']

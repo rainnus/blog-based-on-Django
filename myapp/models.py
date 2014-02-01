@@ -1,9 +1,5 @@
-import markdown2
-from django import template
+
 from django.db import models
-from django.template.defaultfilters import stringfilter
-from django.utils.encoding import force_unicode
-from django.utils.safestring import mark_safe
 
 
 class Tag(models.Model):
@@ -41,11 +37,3 @@ class Blog(models.Model):
         ordering = ['-publish_time']
 
 
-register = template.Library()
-
-@register.filter(is_safe=True)
-@stringfilter
-def markdown2(value):
-    return mark_safe(markdown2.markdown(force_unicode(value), safe_mode=True, enable_attributes=False))
-
-register.filter('markdown', markdown2)
